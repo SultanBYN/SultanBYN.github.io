@@ -1,0 +1,42 @@
+@using SultanPortfolio.Web.Components.Shared
+
+<SectionPanel Title="Home" CssClass="home-section">
+    <div class="home-hero">
+        <p class="hero-eyebrow">Available for opportunities</p>
+        <h1 class="hero-name">Sultan Bin</h1>
+        <p class="hero-title">.NET Developer · Full Stack</p>
+        <p class="hero-location">📍 Islamabad, Pakistan</p>
+        <p class="hero-tagline">
+            Building robust, scalable .NET solutions — from clean APIs to polished frontends.
+            3+ years crafting enterprise-grade web applications.
+<br/>
+            "Robust means it doesn't just work on my machine; 
+            It stays when I leave."
+        </p>
+
+        <div class="hero-contacts">
+            <a href="mailto:Sultan.Bin@outlook.com" class="contact-chip">
+                ✉ Sultan.Bin@outlook.com
+            </a>
+            <a href="tel:+923174823030" class="contact-chip">
+                📞 +92 317 482 3030
+            </a>
+        </div>
+
+        <div class="hero-cta">
+            <button class="cta-btn" @onclick="NavigateToProjects">
+                View Projects →
+            </button>
+        </div>
+    </div>
+</SectionPanel>
+
+@code {
+    [Parameter]
+    public EventCallback<string> OnNavigate { get; set; }
+
+    private async Task NavigateToProjects()
+    {
+        await OnNavigate.InvokeAsync("Projects");
+    }
+}

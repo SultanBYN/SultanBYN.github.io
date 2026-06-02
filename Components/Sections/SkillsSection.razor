@@ -1,0 +1,31 @@
+@using SultanPortfolio.Web.Components.Shared
+
+<SectionPanel Title="Skills">
+    <div class="skills-content">
+        @foreach (var category in _skillCategories)
+        {
+            <div class="skill-category">
+                <p class="skill-category-title">@category.Name</p>
+                <div class="skill-badges">
+                    @foreach (var skill in category.Skills)
+                    {
+                        <SkillBadge Skill="@skill" />
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</SectionPanel>
+
+@code {
+    private record SkillCategory(string Name, List<string> Skills);
+
+    private static readonly SkillCategory[] _skillCategories =
+    [
+        new("Backend",             ["ASP.NET MVC/Core", "EF Core", "JWT", "LINQ", "RESTful APIs", "SignalR"]),
+        new("Frontend",            ["HTML5", "CSS3", "SCSS", "Bootstrap", "Tailwind", "React", "Angular", "jQuery", "Figma"]),
+        new("Databases",           ["MS SQL Server", "PostgreSQL", "Supabase"]),
+        new("Tools & Platforms",   ["Postman", "Swagger", "Umbraco", "WordPress", "Webflow", "GHL", "n8n", "Shopify"]),
+        new("Architecture & CMS",  ["Clean Architecture", "Repository Pattern"])
+    ];
+}

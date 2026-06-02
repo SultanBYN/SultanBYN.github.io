@@ -1,0 +1,70 @@
+@inject IJSRuntime JS
+
+<nav class="sidebar-nav @(IsOpen ? "open" : "")">
+    <div class="sidebar-header">
+        <div class="sidebar-brand">
+            <span class="brand-dot"></span>
+            Sultan<span>.dev</span>
+        </div>
+        <div class="sidebar-subtitle">.NET Full Stack</div>
+    </div>
+
+    <ul class="nav-list">
+        @foreach (var item in NavItems)
+        {
+            <li>
+                <a href="#@item.Id"
+                   class="nav-item"
+                   @onclick="() => HandleNavClick(item.Id)"
+                   @onclick:preventDefault="true">
+                    <span class="nav-icon">@item.Icon</span>
+                    <span class="nav-label">@item.Label</span>
+                </a>
+            </li>
+        }
+    </ul>
+
+    <div class="sidebar-footer">
+        <div class="sidebar-status">
+            <span class="status-dot"></span>
+            <span>Open to work</span>
+        </div>
+    </div>
+</nav>
+
+@if (IsOpen)
+{
+    <div class="sidebar-overlay" @onclick="CloseSidebar"></div>
+}
+
+@code {
+    private record NavItem(string Label, string Icon, string Id);
+
+    private static readonly NavItem[] NavItems =
+    [
+        new("Home",           "\u2302",  "home"),
+        new("About",          "\u25C9",  "about"),
+        new("Experience",     "\u25C8",  "experience"),
+        new("Skills",         "\u25C6",  "skills"),
+        new("Projects",       "\u25C7",  "projects"),
+        new("Certifications", "\u2726",  "certifications"),
+        new("News Feed",      "\u25CE",  "newsfeed"),
+    ];
+
+    private async Task HandleNavClick(string sectionId)
+    {
+        await OnClose.InvokeAsync();
+        await JS.InvokeVoidAsync("portfolioInterop.scrollToSection", sectionId);
+    }
+
+    private async Task CloseSidebar()
+    {
+        await OnClose.InvokeAsync();
+    }
+
+    [Parameter]
+    public bool IsOpen { get; set; }
+
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+}

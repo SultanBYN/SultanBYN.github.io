@@ -1,0 +1,287 @@
+/* app.css — Modern Portfolio Design System */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+/* ── Design Tokens ─────────────────────────────────────────── */
+:root {
+  color-scheme: light;
+
+  /* Backgrounds */
+  --bg-base:       #f6f7fc;
+  --bg-surface:    #ffffff;
+  --bg-elevated:   #eef1f8;
+  --bg-hover:      #e5e9f3;
+  --bg-card:       #ffffff;
+
+  /* Foregrounds */
+  --fg-primary:    #101828;
+  --fg-secondary:  #475467;
+  --fg-muted:      #667085;
+
+  /* Accent Gradient */
+  --accent:        #7c6af7;
+  --accent-2:      #a78bfa;
+  --accent-3:      #c084fc;
+  --accent-cyan:   #22d3ee;
+  --accent-pink:   #f472b6;
+  --accent-soft:   rgba(124, 106, 247, 0.10);
+  --accent-glow:   rgba(124, 106, 247, 0.30);
+  --gradient-main: linear-gradient(135deg, #7c6af7, #a78bfa, #c084fc);
+  --gradient-warm: linear-gradient(135deg, #f472b6, #a78bfa, #7c6af7);
+  --gradient-cool: linear-gradient(135deg, #22d3ee, #7c6af7, #a78bfa);
+
+  /* Semantic */
+  --success:       #34d399;
+  --info:          #60a5fa;
+  --warning:       #fbbf24;
+  --danger:        #f87171;
+
+  /* Borders */
+  --border:        rgba(16, 24, 40, 0.08);
+  --border-strong: rgba(16, 24, 40, 0.12);
+  --border-accent: rgba(124, 106, 247, 0.25);
+
+  /* Glass */
+  --glass-bg:      rgba(255, 255, 255, 0.72);
+  --glass-border:  rgba(16, 24, 40, 0.08);
+  --glass-blur:    12px;
+
+  /* Typography */
+  --font-sans:  'Space Grotesk', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-body:  'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono:  'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Radius */
+  --radius-sm:  8px;
+  --radius-md:  12px;
+  --radius-lg:  16px;
+  --radius-xl:  20px;
+  --radius-2xl: 24px;
+
+  /* Shadows */
+  --shadow-sm:  0 2px 8px rgba(16, 24, 40, 0.06);
+  --shadow-md:  0 8px 24px rgba(16, 24, 40, 0.10);
+  --shadow-lg:  0 16px 48px rgba(16, 24, 40, 0.14);
+  --shadow-glow: 0 0 30px rgba(124, 106, 247, 0.12);
+  --shadow-card: 0 8px 24px rgba(16, 24, 40, 0.08), 0 0 0 1px rgba(16, 24, 40, 0.04);
+
+  /* Transitions */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+html[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* Backgrounds */
+  --bg-base:       #06060b;
+  --bg-surface:    #0d0d14;
+  --bg-elevated:   #13131d;
+  --bg-hover:      #1a1a28;
+  --bg-card:       #101018;
+
+  /* Foregrounds */
+  --fg-primary:    #f0f0f5;
+  --fg-secondary:  #9494ab;
+  --fg-muted:      #555570;
+
+  /* Borders */
+  --border:        rgba(255, 255, 255, 0.06);
+  --border-strong: rgba(255, 255, 255, 0.10);
+  --border-accent: rgba(124, 106, 247, 0.25);
+
+  /* Glass */
+  --glass-bg:      rgba(13, 13, 20, 0.60);
+  --glass-border:  rgba(255, 255, 255, 0.08);
+
+  /* Shadows */
+  --shadow-sm:  0 2px 8px rgba(0,0,0,0.3);
+  --shadow-md:  0 4px 20px rgba(0,0,0,0.4);
+  --shadow-lg:  0 8px 40px rgba(0,0,0,0.5);
+  --shadow-glow: 0 0 30px rgba(124, 106, 247, 0.15);
+  --shadow-card: 0 4px 24px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.05);
+}
+
+/* ── Reset ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+/* ── Base ──────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background:
+    radial-gradient(circle at top right, rgba(124, 106, 247, 0.08), transparent 28%),
+    radial-gradient(circle at 20% 20%, rgba(34, 211, 238, 0.05), transparent 22%),
+    var(--bg-base);
+  color: var(--fg-primary);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: all 200ms var(--ease-out);
+}
+a:hover { opacity: 0.85; }
+
+h1, h2, h3, h4 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+p { margin: 0; }
+
+/* ── Utility Classes ───────────────────────────────────────── */
+.gradient-text {
+  background: var(--gradient-main);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+}
+
+.glow-border {
+  position: relative;
+}
+.glow-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--gradient-main);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 400ms var(--ease-out);
+  pointer-events: none;
+}
+.glow-border:hover::before {
+  opacity: 1;
+}
+
+/* ── Scroll Reveal Animation ───────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 600ms var(--ease-out), transform 600ms var(--ease-out);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: 100ms; }
+.reveal-delay-2 { transition-delay: 200ms; }
+.reveal-delay-3 { transition-delay: 300ms; }
+.reveal-delay-4 { transition-delay: 400ms; }
+
+/* ── Stagger Children ──────────────────────────────────────── */
+.stagger-children > * {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 400ms var(--ease-out), transform 400ms var(--ease-out);
+}
+.stagger-children.visible > *:nth-child(1)  { transition-delay: 50ms; }
+.stagger-children.visible > *:nth-child(2)  { transition-delay: 100ms; }
+.stagger-children.visible > *:nth-child(3)  { transition-delay: 150ms; }
+.stagger-children.visible > *:nth-child(4)  { transition-delay: 200ms; }
+.stagger-children.visible > *:nth-child(5)  { transition-delay: 250ms; }
+.stagger-children.visible > *:nth-child(6)  { transition-delay: 300ms; }
+.stagger-children.visible > *:nth-child(7)  { transition-delay: 350ms; }
+.stagger-children.visible > *:nth-child(8)  { transition-delay: 400ms; }
+.stagger-children.visible > *:nth-child(9)  { transition-delay: 450ms; }
+.stagger-children.visible > *:nth-child(10) { transition-delay: 500ms; }
+.stagger-children.visible > *:nth-child(n) {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Keyframe Animations ───────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(124, 106, 247, 0.1); }
+  50%      { box-shadow: 0 0 40px rgba(124, 106, 247, 0.25); }
+}
+
+@keyframes gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes counter-fill {
+  from { width: 0%; }
+  to   { width: var(--fill-width); }
+}
+
+/* ── Dot Grid Background Pattern ───────────────────────────── */
+.dot-pattern {
+  position: relative;
+}
+.dot-pattern::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(124, 106, 247, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+  z-index: 0;
+}
+.dot-pattern > * {
+  position: relative;
+  z-index: 1;
+}

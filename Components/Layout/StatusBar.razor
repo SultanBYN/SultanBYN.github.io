@@ -1,0 +1,61 @@
+@implements IDisposable
+
+<div class="status-bar">
+    <div class="status-left">
+        <div class="status-item">
+            <span class="status-label">Page:</span>
+            <span class="status-value">Home</span>
+        </div>
+        <span class="status-separator"></span>
+        <div class="status-item">
+            <span class="status-label">Stack:</span>
+            <span class="status-value">Blazor WASM</span>
+        </div>
+        <span class="status-separator"></span>
+        <div class="status-item">
+            <span class="status-label">.NET:</span>
+            <span class="status-value">9.0</span>
+        </div>
+    </div>
+    <div class="status-right">
+        <button class="theme-toggle-btn" type="button" onclick="window.portfolioInterop.toggleTheme()" aria-label="Toggle light and dark mode">
+            <span class="theme-toggle-label theme-toggle-to-light">Light</span>
+            <span class="theme-toggle-label theme-toggle-to-dark">Dark</span>
+        </button>
+        <span class="status-item">@_currentTime</span>
+    </div>
+</div>
+
+@code {
+    private string _currentTime = DateTime.Now.ToString("HH:mm:ss");
+    private CancellationTokenSource? _timerCts;
+
+    protected override void OnInitialized()
+    {
+        _timerCts = new CancellationTokenSource();
+        _ = RunClockAsync(_timerCts.Token);
+    }
+
+    private async Task RunClockAsync(CancellationToken cancellationToken)
+    {
+        using var timer = new PeriodicTimer(TimeSpan.FromSeconds(1));
+
+        try
+        {
+            while (await timer.WaitForNextTickAsync(cancellationToken))
+            {
+                _currentTime = DateTime.Now.ToString("HH:mm:ss");
+                await InvokeAsync(StateHasChanged);
+            }
+        }
+        catch (OperationCanceledException)
+        {
+        }
+    }
+
+    public void Dispose()
+    {
+        _timerCts?.Cancel();
+        _timerCts?.Dispose();
+    }
+}

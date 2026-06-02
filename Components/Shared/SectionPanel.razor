@@ -1,0 +1,19 @@
+<div class="section-panel @CssClass">
+    <div class="panel-titlebar">
+        <span class="panel-title">@Title</span>
+    </div>
+    <div class="panel-body">
+        @ChildContent
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public string CssClass { get; set; } = string.Empty;
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+}

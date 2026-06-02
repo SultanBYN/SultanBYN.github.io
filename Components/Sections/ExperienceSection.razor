@@ -1,0 +1,68 @@
+@using SultanPortfolio.Web.Components.Shared
+
+<SectionPanel Title="Experience">
+    <div class="experience-list">
+        @foreach (var position in _positions)
+        {
+            <div class="work-card">
+                <div class="work-card-header">
+                    <span class="position-title">@position.Title</span>
+                    <span class="position-period">@position.Period</span>
+                </div>
+                <div class="work-card-meta">
+                    <span class="position-company">@position.Company</span>
+                    <span class="position-type-badge">@position.EmploymentType</span>
+                </div>
+                @if (position.AssociatedProjects.Count > 0)
+                {
+                    <div class="position-projects">
+                        <span class="projects-label">Projects:</span>
+                        @string.Join(", ", position.AssociatedProjects)
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</SectionPanel>
+
+@code {
+    private record WorkPosition(
+        string Title,
+        string Company,
+        string Period,
+        string EmploymentType,
+        List<string> AssociatedProjects
+    );
+
+    private static readonly WorkPosition[] _positions =
+    [
+        new(
+            Title: "Mid-level .NET Core Developer",
+            Company: "AWK Technologies",
+            Period: "Oct 2024 – Sep 2025",
+            EmploymentType: "Full-time",
+            AssociatedProjects: ["TCI Dashboard", "Dar-ul-Amans Database", "Pavilion Construction (Nigella ERP)", "Rozan MIS"]
+        ),
+        new(
+            Title: "Junior Full Stack Developer (.NET)",
+            Company: "FBM Solutions",
+            Period: "Apr 2024 – Mar 2025",
+            EmploymentType: "Full-time",
+            AssociatedProjects: ["Trackk HRMIS"]
+        ),
+        new(
+            Title: "Junior Full Stack .NET Developer",
+            Company: "Elif Technologies Bahawalpur",
+            Period: "Aug 2022 – Jan 2024",
+            EmploymentType: "Full-time",
+            AssociatedProjects: []
+        ),
+        new(
+            Title: "Jr. Frontend Developer",
+            Company: "Elif Technologies Abu Dhabi",
+            Period: "Internship",
+            EmploymentType: "Internship",
+            AssociatedProjects: []
+        )
+    ];
+}

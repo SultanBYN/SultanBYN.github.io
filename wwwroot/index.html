@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sultan Bin | .NET Developer</title>
+    <base href="/" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+        (function () {
+            var storageKey = 'portfolio-theme';
+            var storedTheme = null;
+            try {
+                storedTheme = localStorage.getItem(storageKey);
+            } catch (e) {
+                storedTheme = null;
+            }
+
+            var theme = storedTheme === 'light' || storedTheme === 'dark'
+                ? storedTheme
+                : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
+            document.documentElement.setAttribute('data-theme', theme);
+            document.documentElement.style.colorScheme = theme;
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+    <link rel="icon" type="image/svg+xml" href="favicon-dark.svg" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" type="image/svg+xml" href="favicon-light.svg" media="(prefers-color-scheme: light)" />
+    <link rel="icon" type="image/png" sizes="any" href="favicon.png" />
+
+</head>
+
+<body>
+    <div id="app">
+        <div style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:#06060b;">
+            <div style="text-align:center;">
+                <div style="width:40px;height:40px;border:3px solid rgba(255,255,255,0.06);border-top-color:#7c6af7;border-radius:50%;animation:spin-slow 0.8s linear infinite;margin:0 auto 1rem;"></div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:#555570;">Loading portfolio...</div>
+            </div>
+        </div>
+        <style>
+            @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        </style>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="." class="reload">Reload</a>
+        <span class="dismiss">X</span>
+    </div>
+
+    <script src="js/portfolio.js"></script>
+    <script src="_framework/blazor.webassembly.js"></script>
+</body>
+
+</html>

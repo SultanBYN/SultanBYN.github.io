@@ -1,0 +1,23 @@
+@using SultanPortfolio.Web.Components.Shared
+
+<SectionPanel Title="Certifications">
+    <div class="certifications-list">
+        @foreach (var cert in _certifications)
+        {
+            <div class="cert-card">
+                <span class="cert-title">@cert.Title</span>
+                <span class="cert-platform">@cert.IssuingPlatform</span>
+            </div>
+        }
+    </div>
+</SectionPanel>
+
+@code {
+    private record CertificationEntry(string Title, string IssuingPlatform);
+
+    private static readonly CertificationEntry[] _certifications =
+    [
+        new(".NET Core MVC Complete Guide 2024", "Udemy"),
+        new("Fundamentals of Frontend Development", "Coursera")
+    ];
+}

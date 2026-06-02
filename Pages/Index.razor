@@ -1,0 +1,516 @@
+@page "/"
+@inject IJSRuntime JS
+@inject INewsFeedService NewsFeedService
+
+<div class="scroll-page">
+
+    <!-- ═══ HERO ═══ -->
+    <section id="home" class="scroll-section hero-page dot-pattern">
+        <div class="page-container">
+            <div class="hero-content">
+                <div class="hero-left">
+                    <div class="hero-availability">
+                        <span class="avail-dot"></span>
+                        Available for opportunities
+                    </div>
+
+                    <h1 class="hero-name">
+                        Sultan <span class="name-gradient">Bin</span>
+                    </h1>
+
+                    <p class="hero-role">
+                        <span class="hero-typing" id="hero-typing-text"></span><span class="hero-cursor"></span>
+                    </p>
+
+                    <p class="hero-location">
+                        &gt; Islamabad, Pakistan
+                    </p>
+
+                    <p class="hero-tagline">
+                        Building <span class="highlight">robust, scalable .NET solutions</span> — from clean APIs
+                        to polished frontends. 4+ years crafting enterprise-grade web applications.
+                        <br /><br />
+                        <em>"Robust means it doesn't just work on my machine;
+                        it stays when I leave."</em>
+                    </p>
+
+                    <div class="hero-contacts">
+                        <a href="mailto:Sultan.Bin@outlook.com" class="contact-chip">
+                            <span>&#9993;</span> Sultan.Bin@outlook.com
+                        </a>
+                        <a href="tel:+923174823030" class="contact-chip">
+                            <span>&#9742;</span> +92 317 482 3030
+                        </a>
+                    </div>
+
+                    <div class="hero-cta">
+                        <button class="cta-btn primary" @onclick='() => ScrollTo("projects")'>
+                            View Projects <span>&#8594;</span>
+                        </button>
+                        <button class="cta-btn secondary" @onclick='() => ScrollTo("experience")'>
+                            My Journey <span>&#8599;</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="hero-right">
+                    <div class="hero-stats">
+                        <div class="stat-card">
+                            <div class="stat-number" id="stat-years" data-suffix="+">0+</div>
+                            <div class="stat-label">Years Exp</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="stat-projects" data-suffix="+">0+</div>
+                            <div class="stat-label">Projects</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="stat-companies" data-suffix="">0</div>
+                            <div class="stat-label">Companies</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="stat-clients" data-suffix="+">0+</div>
+                            <div class="stat-label">Clients</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ ABOUT ═══ -->
+    <section id="about" class="scroll-section">
+        <div class="page-container">
+            <div class="page-header reveal">
+                <p class="page-header-eyebrow">Get to know me</p>
+                <h1 class="page-title">About <span class="gradient-text">Me</span></h1>
+                <p class="page-description">
+                    Passionate developer with a love for clean code and meaningful solutions.
+                </p>
+            </div>
+
+            <div class="about-grid stagger-children">
+                <div class="about-card full-width">
+                    <div class="about-card-icon">&#9998;</div>
+                    <p class="about-card-title">Professional Summary</p>
+                    <p class="about-summary-text">
+                        Passionate .NET Full Stack Developer with 4+ years of experience building enterprise-grade
+                        web applications. Specializing in ASP.NET Core, Entity Framework, and modern frontend
+                        technologies. Committed to writing clean, maintainable code and delivering scalable solutions
+                        that solve real business problems.
+                    </p>
+                </div>
+
+                <div class="about-card">
+                    <div class="about-card-icon">&#127891;</div>
+                    <p class="about-card-title">Education</p>
+                    <div class="edu-list">
+                        <div class="edu-item">
+                            <div class="edu-item-icon">&#128218;</div>
+                            <div class="edu-item-content">
+                                <div class="edu-degree">Bachelor of Software Engineering (BSE)</div>
+                                <div class="edu-institution">Virtual University of Pakistan</div>
+                                <div class="edu-meta">
+                                    <span class="edu-period">Expected Aug 2026</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="edu-item">
+                            <div class="edu-item-icon">&#128218;</div>
+                            <div class="edu-item-content">
+                                <div class="edu-degree">Intermediate</div>
+                                <div class="edu-institution">Federal Govt. College Bahawalpur</div>
+                                <div class="edu-meta">
+                                    <span class="edu-period">2020</span>
+                                    <span class="edu-grade">Grade: B+</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-card">
+                    <div class="about-card-icon">&#127760;</div>
+                    <p class="about-card-title">Languages</p>
+                    <div class="lang-grid">
+                        <div class="lang-card">
+                            <span class="lang-flag">&#127468;&#127463;</span>
+                            <div class="lang-info">
+                                <span class="lang-name">English</span>
+                                <span class="lang-level">Professional</span>
+                            </div>
+                        </div>
+                        <div class="lang-card">
+                            <span class="lang-flag">&#127477;&#127472;</span>
+                            <div class="lang-info">
+                                <span class="lang-name">Urdu</span>
+                                <span class="lang-level">Native</span>
+                            </div>
+                        </div>
+                        <div class="lang-card">
+                            <span class="lang-flag">&#127480;&#127462;</span>
+                            <div class="lang-info">
+                                <span class="lang-name">Arabic</span>
+                                <span class="lang-level">Basic</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ EXPERIENCE ═══ -->
+    <section id="experience" class="scroll-section">
+        <div class="page-container">
+            <div class="page-header reveal">
+                <p class="page-header-eyebrow">Career Timeline</p>
+                <h1 class="page-title">Work <span class="gradient-text">Experience</span></h1>
+                <p class="page-description">
+                    My professional journey through building enterprise solutions.
+                </p>
+            </div>
+
+            <div class="timeline stagger-children">
+                @foreach (var position in _positions)
+                {
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-card">
+                            <div class="timeline-header">
+                                <span class="timeline-title">@position.Title</span>
+                                <span class="timeline-period">@position.Period</span>
+                            </div>
+                            <div class="timeline-meta">
+                                <span class="timeline-company">@position.Company</span>
+                                <span class="timeline-type">@position.EmploymentType</span>
+                            </div>
+                            @if (position.AssociatedProjects.Count > 0)
+                            {
+                                <div class="timeline-projects">
+                                    @foreach (var project in position.AssociatedProjects)
+                                    {
+                                        <span class="timeline-project-tag">@project</span>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ SKILLS ═══ -->
+    <section id="skills" class="scroll-section">
+        <div class="page-container">
+            <div class="page-header reveal">
+                <p class="page-header-eyebrow">Technical Toolkit</p>
+                <h1 class="page-title">Skills & <span class="gradient-text">Technologies</span></h1>
+                <p class="page-description">
+                    Tools and technologies I use to bring ideas to life.
+                </p>
+            </div>
+
+            <div class="skills-grid stagger-children">
+                @foreach (var category in _skillCategories)
+                {
+                    <div class="skill-tile">
+                        <div class="skill-tile-header">
+                            <div class="skill-tile-icon">@category.Icon</div>
+                            <div>
+                                <div class="skill-tile-name">@category.Name</div>
+                                <div class="skill-tile-count">@category.Skills.Count skills</div>
+                            </div>
+                        </div>
+                        <div class="skill-chips">
+                            @foreach (var skill in category.Skills)
+                            {
+                                <span class="skill-chip">@skill</span>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ PROJECTS ═══ -->
+    <section id="projects" class="scroll-section">
+        <div class="page-container">
+            <div class="page-header reveal">
+                <p class="page-header-eyebrow">Portfolio</p>
+                <h1 class="page-title">Featured <span class="gradient-text">Projects</span></h1>
+                <p class="page-description">
+                    Enterprise solutions I've built and shipped.
+                </p>
+            </div>
+
+            <div class="projects-grid stagger-children">
+                @foreach (var project in _projects)
+                {
+                    <div class="project-card">
+                        <div class="project-card-accent"></div>
+                        <div class="project-card-body">
+                            <div class="project-card-header">
+                                <span class="project-card-name">@project.Name</span>
+                                <span class="project-card-company">@project.Company</span>
+                            </div>
+                            <p class="project-card-desc">@project.Description</p>
+                            <div class="project-card-footer">
+                                <p class="project-tech-label">Tech Stack</p>
+                                <div class="project-tech-list">
+                                    @foreach (var tech in project.TechStack)
+                                    {
+                                        <span class="project-tech-tag">@tech</span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ CERTIFICATIONS ═══ -->
+    <section id="certifications" class="scroll-section">
+        <div class="page-container">
+            <div class="page-header reveal">
+                <p class="page-header-eyebrow">Achievements</p>
+                <h1 class="page-title"><span class="gradient-text">Certifications</span></h1>
+                <p class="page-description">
+                    Continuous learning and professional development.
+                </p>
+            </div>
+
+            <div class="certs-grid stagger-children">
+                <div class="cert-badge-card">
+                    <div class="cert-icon-wrap">&#127942;</div>
+                    <div class="cert-info">
+                        <div class="cert-title">.NET Core MVC Complete Guide 2024</div>
+                        <div class="cert-platform">Udemy</div>
+                    </div>
+                    <span class="cert-badge-icon">&#10003;</span>
+                </div>
+                <div class="cert-badge-card">
+                    <div class="cert-icon-wrap">&#127942;</div>
+                    <div class="cert-info">
+                        <div class="cert-title">Fundamentals of Frontend Development</div>
+                        <div class="cert-platform">Coursera</div>
+                    </div>
+                    <span class="cert-badge-icon">&#10003;</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══ NEWS FEED ═══ -->
+    <section id="newsfeed" class="scroll-section">
+        <div class="page-container">
+            <div class="page-header reveal">
+                <p class="page-header-eyebrow">Dev Pulse</p>
+                <h1 class="page-title">News <span class="gradient-text">Feed</span></h1>
+                <p class="page-description">
+                    Latest from the .NET and developer community.
+                </p>
+            </div>
+
+            @if (_isLoading && _articles.Count == 0)
+            {
+                <div class="news-loading">
+                    <div class="loading-spinner"></div>
+                    <span class="loading-text">Fetching articles...</span>
+                </div>
+            }
+            else if (_errorMessage is not null && _articles.Count == 0)
+            {
+                <div class="news-error">
+                    <span class="error-message">@_errorMessage</span>
+                </div>
+            }
+            else if (_articles.Count == 0)
+            {
+                <div class="news-empty">
+                    <span class="news-empty-title">No articles available right now.</span>
+                    <span class="news-empty-text">The feed sources are still reachable, but they returned no items just yet.</span>
+                </div>
+            }
+            else
+            {
+                <div class="news-grid stagger-children">
+                    @foreach (var article in _articles)
+                    {
+                        <div class="news-card">
+                            <div class="news-card-header">
+                                <span class="news-source">@article.SourceName</span>
+                                <span class="news-date">@article.PublishedAt.ToString("MMM dd, yyyy")</span>
+                            </div>
+                            <div class="news-card-body">
+                                <p class="news-title">@article.Title</p>
+                                @if (!string.IsNullOrWhiteSpace(article.Summary))
+                                {
+                                    <p class="news-summary">@article.Summary</p>
+                                }
+                            </div>
+                            <div class="news-card-footer">
+                                <a href="@article.Url" target="_blank" rel="noopener noreferrer" class="news-read-link">
+                                    Read article <span>&#8594;</span>
+                                </a>
+                            </div>
+                        </div>
+                    }
+
+                    @if (_errorMessage is not null)
+                    {
+                        <div class="news-error-inline">
+                            <span class="error-message">@_errorMessage</span>
+                        </div>
+                    }
+
+                    @if (_hasMore)
+                    {
+                        <div class="news-load-more">
+                            <button class="load-more-btn" @onclick="LoadMoreAsync" disabled="@_isLoading">
+                                @(_isLoading ? "Loading..." : "Load More")
+                            </button>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </section>
+
+</div>
+
+@code {
+    // ── Typing phrases ──
+    private static readonly string[] TypingPhrases =
+    [
+        ".NET Developer",
+        "Full Stack Engineer",
+        "API Architect",
+        "Problem Solver"
+    ];
+
+    // ── Experience data ──
+    private record WorkPosition(string Title, string Company, string Period, string EmploymentType, List<string> AssociatedProjects);
+
+    private static readonly WorkPosition[] _positions =
+    [
+        new("Mid-level .NET Core Developer", "AWK Technologies", "Oct 2024 - Sep 2025", "Full-time",
+            ["TCI Dashboard", "Dar-ul-Amans Database", "Pavilion Construction (Nigella ERP)", "Rozan MIS"]),
+        new("Junior Full Stack Developer (.NET)", "FBM Solutions", "Apr 2024 - Mar 2025", "Full-time",
+            ["Trackk HRMIS"]),
+        new("Junior Full Stack .NET Developer", "Elif Technologies Bahawalpur", "Aug 2022 - Jan 2024", "Full-time", []),
+        new("Jr. Frontend Developer", "Elif Technologies Abu Dhabi", "Internship", "Internship", [])
+    ];
+
+    // ── Skills data ──
+    private record SkillCategory(string Name, string Icon, List<string> Skills);
+
+    private static readonly SkillCategory[] _skillCategories =
+    [
+        new("Backend", "\U0001F5A5\uFE0F", ["ASP.NET MVC/Core", "EF Core", "JWT", "LINQ", "RESTful APIs", "SignalR"]),
+        new("Frontend", "\U0001F3A8", ["HTML5", "CSS3", "SCSS", "Bootstrap", "Tailwind", "React", "Angular", "jQuery", "Figma"]),
+        new("Databases", "\U0001F5C4\uFE0F", ["MS SQL Server", "PostgreSQL", "Supabase"]),
+        new("Tools & Platforms", "\U0001F527", ["Postman", "Swagger", "Umbraco", "WordPress", "Webflow", "GHL", "n8n", "Shopify"]),
+        new("Architecture", "\U0001F3D7\uFE0F", ["Clean Architecture", "Repository Pattern"])
+    ];
+
+    // ── Projects data ──
+    private record ProjectEntry(string Name, string Company, string Description, List<string> TechStack);
+
+    private static readonly ProjectEntry[] _projects =
+    [
+        new("TCI Dashboard", "AWK Technologies",
+            "A comprehensive dashboard for TCI providing real-time analytics, reporting, and management tools for telecom operations. Built with ASP.NET Core and modern frontend technologies.",
+            ["ASP.NET Core", "EF Core", "MS SQL Server", "React", "SignalR"]),
+        new("Dar-ul-Amans Database", "AWK Technologies",
+            "A database management system for Dar-ul-Amans (women's shelters) to track residents, case management, and administrative operations. Focused on data integrity and user-friendly reporting.",
+            ["ASP.NET Core", "EF Core", "MS SQL Server", "Bootstrap"]),
+        new("Pavilion Construction (Nigella ERP)", "AWK Technologies",
+            "An ERP system for Pavilion Construction company (Nigella brand) covering project management, resource allocation, financial tracking, and construction workflow automation.",
+            ["ASP.NET Core", "EF Core", "MS SQL Server", "jQuery", "Bootstrap"]),
+        new("Rozan MIS", "AWK Technologies",
+            "A Management Information System for Rozan, an NGO focused on mental health and gender-based violence prevention. Handles case tracking, reporting, and organizational data management.",
+            ["ASP.NET Core", "EF Core", "PostgreSQL", "Bootstrap", "SCSS"]),
+        new("Trackk HRMIS", "FBM Solutions",
+            "A Human Resource Management Information System providing employee management, attendance tracking, payroll processing, and HR analytics.",
+            ["ASP.NET Core", "EF Core", "MS SQL Server", "Angular", "Tailwind"])
+    ];
+
+    // ── News Feed state ──
+    private List<NewsArticleDto> _articles = [];
+    private bool _isLoading = true;
+    private string? _errorMessage;
+    private int _currentPage = 1;
+    private const int PageSize = 20;
+    private bool _hasMore = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            _isLoading = true;
+            var result = await NewsFeedService.GetArticlesAsync(_currentPage, PageSize);
+            _articles = result.ToList();
+            _hasMore = _articles.Count == PageSize;
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = "Unable to load news feed. Please try again later.";
+            Console.Error.WriteLine($"[NewsFeed] Error: {ex.Message}");
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("portfolioInterop.startTypingEffect",
+                "hero-typing-text", TypingPhrases, 80, 40, 2000);
+
+            await JS.InvokeVoidAsync("portfolioInterop.animateCounter", "stat-years", 4, 1500);
+            await JS.InvokeVoidAsync("portfolioInterop.animateCounter", "stat-projects", 5, 1500);
+            await JS.InvokeVoidAsync("portfolioInterop.animateCounter", "stat-companies", 4, 1500);
+            await JS.InvokeVoidAsync("portfolioInterop.animateCounter", "stat-clients", 16, 1800);
+
+            await JS.InvokeVoidAsync("portfolioInterop.initScrollReveal");
+            await JS.InvokeVoidAsync("portfolioInterop.initScrollSpy");
+        }
+    }
+
+    private async Task ScrollTo(string sectionId)
+    {
+        await JS.InvokeVoidAsync("portfolioInterop.scrollToSection", sectionId);
+    }
+
+    private async Task LoadMoreAsync()
+    {
+        if (_isLoading) return;
+
+        try
+        {
+            _isLoading = true;
+            _currentPage++;
+            var result = await NewsFeedService.GetArticlesAsync(_currentPage, PageSize);
+            var newArticles = result.ToList();
+            _articles.AddRange(newArticles);
+            _hasMore = newArticles.Count == PageSize;
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = "Unable to load more articles. Please try again later.";
+            Console.Error.WriteLine($"[NewsFeed] Load more error: {ex.Message}");
+            _currentPage--;
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+}

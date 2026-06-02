@@ -1,0 +1,47 @@
+@using SultanPortfolio.Web.Components.Shared
+@using static SultanPortfolio.Web.Components.Shared.ProjectCard
+
+<SectionPanel Title="Projects" CssClass="projects-section">
+    <div class="projects-list">
+        @foreach (var project in _projects)
+        {
+            <ProjectCard Project="@project" />
+        }
+    </div>
+</SectionPanel>
+
+@code {
+    private static readonly ProjectEntry[] _projects =
+    [
+        new(
+            Name: "TCI Dashboard",
+            Company: "AWK Technologies",
+            Description: "A comprehensive dashboard for TCI (Telecom Company of Iran) providing real-time analytics, reporting, and management tools for telecom operations. Built with ASP.NET Core and modern frontend technologies.",
+            TechStack: ["ASP.NET Core", "EF Core", "MS SQL Server", "React", "SignalR"]
+        ),
+        new(
+            Name: "Dar-ul-Amans Database",
+            Company: "AWK Technologies",
+            Description: "A database management system for Dar-ul-Amans (women's shelters) to track residents, case management, and administrative operations. Focused on data integrity and user-friendly reporting.",
+            TechStack: ["ASP.NET Core", "EF Core", "MS SQL Server", "Bootstrap"]
+        ),
+        new(
+            Name: "Pavilion Construction (Nigella ERP)",
+            Company: "AWK Technologies",
+            Description: "An ERP system for Pavilion Construction company (Nigella brand) covering project management, resource allocation, financial tracking, and construction workflow automation.",
+            TechStack: ["ASP.NET Core", "EF Core", "MS SQL Server", "jQuery", "Bootstrap"]
+        ),
+        new(
+            Name: "Rozan MIS",
+            Company: "AWK Technologies",
+            Description: "A Management Information System for Rozan, an NGO focused on mental health and gender-based violence prevention. Handles case tracking, reporting, and organizational data management.",
+            TechStack: ["ASP.NET Core", "EF Core", "PostgreSQL", "Bootstrap", "SCSS"]
+        ),
+        new(
+            Name: "Trackk HRMIS",
+            Company: "FBM Solutions",
+            Description: "A Human Resource Management Information System (HRMIS) for Trackk, providing employee management, attendance tracking, payroll processing, and HR analytics.",
+            TechStack: ["ASP.NET Core", "EF Core", "MS SQL Server", "Angular", "Tailwind"]
+        )
+    ];
+}

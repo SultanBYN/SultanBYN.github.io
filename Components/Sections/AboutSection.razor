@@ -1,0 +1,64 @@
+@using SultanPortfolio.Web.Components.Shared
+
+<SectionPanel Title="About">
+    <div class="about-content">
+        <div class="about-summary">
+            <p class="about-block-title">Professional Summary</p>
+            <p>
+                Passionate .NET Full Stack Developer with 3+ years of experience building enterprise-grade
+                web applications. Specializing in ASP.NET Core, Entity Framework, and modern frontend
+                technologies. Committed to writing clean, maintainable code and delivering scalable solutions
+                that solve real business problems.
+            </p>
+        </div>
+
+        <div class="about-education">
+            <p class="about-block-title">Education</p>
+            <div class="education-cards">
+                @foreach (var edu in _education)
+                {
+                    <div class="education-card">
+                        <div class="edu-degree">@edu.Degree</div>
+                        <div class="edu-institution">@edu.Institution</div>
+                        <div class="edu-period">@edu.Period</div>
+                        @if (!string.IsNullOrEmpty(edu.Grade))
+                        {
+                            <div class="edu-grade">Grade: @edu.Grade</div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="about-languages">
+            <p class="about-block-title">Languages</p>
+            <div class="language-chips">
+                @foreach (var lang in _languages)
+                {
+                    <div class="language-chip">
+                        <span class="lang-name">@lang.Name</span>
+                        <span class="lang-proficiency">@lang.Proficiency</span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</SectionPanel>
+
+@code {
+    private record EducationEntry(string Degree, string Institution, string Period, string? Grade);
+    private record LanguageEntry(string Name, string Proficiency);
+
+    private static readonly EducationEntry[] _education =
+    [
+        new("Bachelor of Software Engineering (BSE)", "Virtual University of Pakistan", "Expected Aug 2026", null),
+        new("Intermediate", "Federal Govt. College Bahawalpur", "2020", "B+")
+    ];
+
+    private static readonly LanguageEntry[] _languages =
+    [
+        new("English", "Professional"),
+        new("Urdu", "Native"),
+        new("Arabic", "Basic")
+    ];
+}

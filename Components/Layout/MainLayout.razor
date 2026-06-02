@@ -1,0 +1,41 @@
+@inherits LayoutComponentBase
+
+<div class="portfolio-shell">
+    <SidebarNav IsOpen="_mobileMenuOpen" OnClose="CloseMobileSidebar" />
+
+    <div class="mobile-topbar">
+        <span class="mobile-brand">Sultan<span>.dev</span></span>
+        <div class="mobile-actions">
+            <button class="theme-toggle-btn mobile-theme-toggle" type="button" onclick="window.portfolioInterop.toggleTheme()" aria-label="Toggle light and dark mode">
+                <span class="theme-toggle-label theme-toggle-to-light">Light</span>
+                <span class="theme-toggle-label theme-toggle-to-dark">Dark</span>
+            </button>
+            <button class="hamburger-btn" @onclick="ToggleMobileSidebar">&#9776;</button>
+        </div>
+    </div>
+
+    <main class="content-area">
+        @Body
+    </main>
+
+    <StatusBar />
+</div>
+
+@if (_mobileMenuOpen)
+{
+    <div class="sidebar-overlay" @onclick="CloseMobileSidebar"></div>
+}
+
+@code {
+    private bool _mobileMenuOpen = false;
+
+    private void ToggleMobileSidebar()
+    {
+        _mobileMenuOpen = !_mobileMenuOpen;
+    }
+
+    private void CloseMobileSidebar()
+    {
+        _mobileMenuOpen = false;
+    }
+}

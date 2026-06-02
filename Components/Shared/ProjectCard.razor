@@ -1,0 +1,34 @@
+@using SultanPortfolio.Web.Components.Shared
+
+<div class="section-panel project-panel">
+    <div class="panel-body">
+        <div class="project-content">
+            <div class="project-header">
+                <span class="project-name">@Project.Name</span>
+                <span class="project-company-badge">@Project.Company</span>
+            </div>
+            <p class="project-description">@Project.Description</p>
+            <div>
+                <p class="tech-stack-label">Tech Stack</p>
+                <div class="tech-badges">
+                    @foreach (var tech in Project.TechStack)
+                    {
+                        <span class="skill-badge">@tech</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public ProjectEntry Project { get; set; } = default!;
+
+    public record ProjectEntry(
+        string Name,
+        string Company,
+        string Description,
+        List<string> TechStack
+    );
+}

@@ -1,0 +1,28 @@
+@using SultanPortfolio.Web.Models
+
+<div class="section-panel news-article-card">
+    <div class="panel-body">
+        <div class="article-meta">
+            <span class="article-source">@Article.SourceName</span>
+            <span class="article-date">@Article.PublishedAt.ToString("MMM dd, yyyy")</span>
+        </div>
+        <p style="font-size:0.95rem;font-weight:500;color:var(--fg-primary);margin-bottom:0.5rem;line-height:1.4;">
+            @Article.Title
+        </p>
+        @if (!string.IsNullOrWhiteSpace(Article.Summary))
+        {
+            <p class="article-summary">@Article.Summary</p>
+        }
+        <a href="@Article.Url"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="article-link">
+            Read article →
+        </a>
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public NewsArticleDto Article { get; set; } = default!;
+}
