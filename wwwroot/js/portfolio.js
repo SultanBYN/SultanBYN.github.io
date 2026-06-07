@@ -199,6 +199,11 @@ window.portfolioInterop = {
             if (statusValue) {
                 statusValue.textContent = sectionNames[activeId] || 'Portfolio';
             }
+
+            const mobileSectionName = document.getElementById('mobileSectionName');
+            if (mobileSectionName) {
+                mobileSectionName.textContent = sectionNames[activeId] || 'Portfolio';
+            }
         };
 
         const updateActiveSection = () => {

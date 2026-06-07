@@ -108,11 +108,14 @@ html[data-theme='dark'] {
 /* ── Base ──────────────────────────────────────────────────── */
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
   padding: 0;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
   background:
     radial-gradient(circle at top right, rgba(124, 106, 247, 0.08), transparent 28%),
     radial-gradient(circle at 20% 20%, rgba(34, 211, 238, 0.05), transparent 22%),
@@ -124,14 +127,26 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 a {
   color: var(--accent);
   text-decoration: none;
   transition: all 200ms var(--ease-out);
+  -webkit-tap-highlight-color: transparent;
 }
 a:hover { opacity: 0.85; }
+
+button, [role="button"] {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+img, video, svg {
+  max-width: 100%;
+  height: auto;
+}
 
 h1, h2, h3, h4 {
   font-family: var(--font-sans);

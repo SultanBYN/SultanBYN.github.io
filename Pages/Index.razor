@@ -1,6 +1,5 @@
 @page "/"
 @inject IJSRuntime JS
-@inject INewsFeedService NewsFeedService
 
 <div class="scroll-page">
 
@@ -315,68 +314,7 @@
                 </p>
             </div>
 
-            @if (_isLoading && _articles.Count == 0)
-            {
-                <div class="news-loading">
-                    <div class="loading-spinner"></div>
-                    <span class="loading-text">Fetching articles...</span>
-                </div>
-            }
-            else if (_errorMessage is not null && _articles.Count == 0)
-            {
-                <div class="news-error">
-                    <span class="error-message">@_errorMessage</span>
-                </div>
-            }
-            else if (_articles.Count == 0)
-            {
-                <div class="news-empty">
-                    <span class="news-empty-title">No articles available right now.</span>
-                    <span class="news-empty-text">The feed sources are still reachable, but they returned no items just yet.</span>
-                </div>
-            }
-            else
-            {
-                <div class="news-grid stagger-children">
-                    @foreach (var article in _articles)
-                    {
-                        <div class="news-card">
-                            <div class="news-card-header">
-                                <span class="news-source">@article.SourceName</span>
-                                <span class="news-date">@article.PublishedAt.ToString("MMM dd, yyyy")</span>
-                            </div>
-                            <div class="news-card-body">
-                                <p class="news-title">@article.Title</p>
-                                @if (!string.IsNullOrWhiteSpace(article.Summary))
-                                {
-                                    <p class="news-summary">@article.Summary</p>
-                                }
-                            </div>
-                            <div class="news-card-footer">
-                                <a href="@article.Url" target="_blank" rel="noopener noreferrer" class="news-read-link">
-                                    Read article <span>&#8594;</span>
-                                </a>
-                            </div>
-                        </div>
-                    }
-
-                    @if (_errorMessage is not null)
-                    {
-                        <div class="news-error-inline">
-                            <span class="error-message">@_errorMessage</span>
-                        </div>
-                    }
-
-                    @if (_hasMore)
-                    {
-                        <div class="news-load-more">
-                            <button class="load-more-btn" @onclick="LoadMoreAsync" disabled="@_isLoading">
-                                @(_isLoading ? "Loading..." : "Load More")
-                            </button>
-                        </div>
-                    }
-                </div>
-            }
+            <div class="news-grid"></div>
         </div>
     </section>
 
@@ -439,33 +377,6 @@
             ["ASP.NET Core", "EF Core", "MS SQL Server", "Angular", "Tailwind"])
     ];
 
-    // ── News Feed state ──
-    private List<NewsArticleDto> _articles = [];
-    private bool _isLoading = true;
-    private string? _errorMessage;
-    private int _currentPage = 1;
-    private const int PageSize = 20;
-    private bool _hasMore = true;
-
-    protected override async Task OnInitializedAsync()
-    {
-        try
-        {
-            _isLoading = true;
-            var result = await NewsFeedService.GetArticlesAsync(_currentPage, PageSize);
-            _articles = result.ToList();
-            _hasMore = _articles.Count == PageSize;
-        }
-        catch (Exception ex)
-        {
-            _errorMessage = "Unable to load news feed. Please try again later.";
-            Console.Error.WriteLine($"[NewsFeed] Error: {ex.Message}");
-        }
-        finally
-        {
-            _isLoading = false;
-        }
-    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -489,28 +400,4 @@
         await JS.InvokeVoidAsync("portfolioInterop.scrollToSection", sectionId);
     }
 
-    private async Task LoadMoreAsync()
-    {
-        if (_isLoading) return;
-
-        try
-        {
-            _isLoading = true;
-            _currentPage++;
-            var result = await NewsFeedService.GetArticlesAsync(_currentPage, PageSize);
-            var newArticles = result.ToList();
-            _articles.AddRange(newArticles);
-            _hasMore = newArticles.Count == PageSize;
-        }
-        catch (Exception ex)
-        {
-            _errorMessage = "Unable to load more articles. Please try again later.";
-            Console.Error.WriteLine($"[NewsFeed] Load more error: {ex.Message}");
-            _currentPage--;
-        }
-        finally
-        {
-            _isLoading = false;
-        }
-    }
 }

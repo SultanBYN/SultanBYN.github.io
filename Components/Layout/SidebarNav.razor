@@ -1,6 +1,6 @@
 @inject IJSRuntime JS
 
-<nav class="sidebar-nav @(IsOpen ? "open" : "")">
+<nav class="sidebar-nav">
     <div class="sidebar-header">
         <div class="sidebar-brand">
             <span class="brand-dot"></span>
@@ -32,11 +32,6 @@
     </div>
 </nav>
 
-@if (IsOpen)
-{
-    <div class="sidebar-overlay" @onclick="CloseSidebar"></div>
-}
-
 @code {
     private record NavItem(string Label, string Icon, string Id);
 
@@ -53,18 +48,6 @@
 
     private async Task HandleNavClick(string sectionId)
     {
-        await OnClose.InvokeAsync();
         await JS.InvokeVoidAsync("portfolioInterop.scrollToSection", sectionId);
     }
-
-    private async Task CloseSidebar()
-    {
-        await OnClose.InvokeAsync();
-    }
-
-    [Parameter]
-    public bool IsOpen { get; set; }
-
-    [Parameter]
-    public EventCallback OnClose { get; set; }
 }
