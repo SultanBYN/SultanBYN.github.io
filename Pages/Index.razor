@@ -303,20 +303,7 @@
         </div>
     </section>
 
-    <!-- ═══ NEWS FEED ═══ -->
-    <section id="newsfeed" class="scroll-section">
-        <div class="page-container">
-            <div class="page-header reveal">
-                <p class="page-header-eyebrow">Dev Pulse</p>
-                <h1 class="page-title">News <span class="gradient-text">Feed</span></h1>
-                <p class="page-description">
-                    Latest from the .NET and developer community.
-                </p>
-            </div>
-
-            <div class="news-grid"></div>
-        </div>
-    </section>
+    <NewsFeedSection />
 
 </div>
 
@@ -326,7 +313,7 @@
     [
         ".NET Developer",
         "Full Stack Engineer",
-        "API Architect",
+        "Solutions Architect",
         "Problem Solver"
     ];
 
@@ -352,7 +339,7 @@
         new("Frontend", "\U0001F3A8", ["HTML5", "CSS3", "SCSS", "Bootstrap", "Tailwind", "React", "Angular", "jQuery", "Figma"]),
         new("Databases", "\U0001F5C4\uFE0F", ["MS SQL Server", "PostgreSQL", "Supabase"]),
         new("Tools & Platforms", "\U0001F527", ["Postman", "Swagger", "Umbraco", "WordPress", "Webflow", "GHL", "n8n", "Shopify"]),
-        new("Architecture", "\U0001F3D7\uFE0F", ["Clean Architecture", "Repository Pattern"])
+        new("Architecture", "\U0001F3D7\uFE0F", ["Clean Architecture", "Repository Pattern", "Factory Pattern", "Dependency Injection"])
     ];
 
     // ── Projects data ──
@@ -374,7 +361,7 @@
             ["ASP.NET Core", "EF Core", "PostgreSQL", "Bootstrap", "SCSS"]),
         new("Trackk HRMIS", "FBM Solutions",
             "A Human Resource Management Information System providing employee management, attendance tracking, payroll processing, and HR analytics.",
-            ["ASP.NET Core", "EF Core", "MS SQL Server", "Angular", "Tailwind"])
+            ["ASP.NET Core", "EF Core", "MS SQL Server", "Blazor", "Tailwind"])
     ];
 
 
@@ -386,9 +373,9 @@
                 "hero-typing-text", TypingPhrases, 80, 40, 2000);
 
             await JS.InvokeVoidAsync("portfolioInterop.animateCounter", "stat-years", 4, 1500);
-            await JS.InvokeVoidAsync("portfolioInterop.animateCounter", "stat-projects", 5, 1500);
+            await JS.InvokeVoidAsync("portfolioInterop.animateCounter", "stat-projects", 15, 1500);
             await JS.InvokeVoidAsync("portfolioInterop.animateCounter", "stat-companies", 4, 1500);
-            await JS.InvokeVoidAsync("portfolioInterop.animateCounter", "stat-clients", 16, 1800);
+            await JS.InvokeVoidAsync("portfolioInterop.animateCounter", "stat-clients", 10, 1800);
 
             await JS.InvokeVoidAsync("portfolioInterop.initScrollReveal");
             await JS.InvokeVoidAsync("portfolioInterop.initScrollSpy");

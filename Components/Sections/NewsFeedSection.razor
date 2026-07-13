@@ -1,0 +1,519 @@
+@using SultanPortfolio.Web.Services
+@inject NewsFeedService NewsFeedService
+
+<section id="news" class="scroll-section news-section">
+    <div class="page-container">
+        <div class="page-header reveal">
+            <p class="page-header-eyebrow">Curated feed</p>
+            <h1 class="page-title">.NET Ecosystem <span class="gradient-text">News</span></h1>
+            <p class="page-description">
+                Starts loading 5 seconds after the page is ready, then pulls in dotnet-related posts from multiple sources and keeps the first page lean.
+            </p>
+        </div>
+
+        <div class="news-controls reveal">
+            <label class="news-control">
+                <span class="news-control-label">Search</span>
+                <input class="news-input" type="search" placeholder="Search .NET, EF Core, Blazor..." @bind="SearchText" @bind:event="oninput" />
+            </label>
+
+            <label class="news-control">
+                <span class="news-control-label">Type</span>
+                <select class="news-select" @bind="SelectedType">
+                    @foreach (var option in TypeOptions)
+                    {
+                        <option value="@option">@option</option>
+                    }
+                </select>
+            </label>
+
+            <label class="news-control">
+                <span class="news-control-label">Technology</span>
+                <select class="news-select" @bind="SelectedTechnology">
+                    @foreach (var option in TechnologyOptions)
+                    {
+                        <option value="@option">@option</option>
+                    }
+                </select>
+            </label>
+
+            <label class="news-control">
+                <span class="news-control-label">Source</span>
+                <select class="news-select" @bind="SelectedSource">
+                    @foreach (var option in SourceOptions)
+                    {
+                        <option value="@option">@option</option>
+                    }
+                </select>
+            </label>
+
+            <label class="news-control">
+                <span class="news-control-label">Date</span>
+                <select class="news-select" @bind="SelectedDateWindow">
+                    @foreach (var option in DateWindowOptions)
+                    {
+                        <option value="@option">@option</option>
+                    }
+                </select>
+            </label>
+
+            <label class="news-control">
+                <span class="news-control-label">Sort</span>
+                <select class="news-select" @bind="SelectedSort">
+                    @foreach (var option in SortOptions)
+                    {
+                        <option value="@option">@option</option>
+                    }
+                </select>
+            </label>
+        </div>
+
+        <div class="news-meta reveal">
+            <span class="news-meta-item">@FilteredItems.Count item(s) matched</span>
+            <span class="news-meta-item">@LoadedItems.Count loaded so far</span>
+            <span class="news-meta-item">
+                @if (NewsFeedService.LastRefreshed is not null)
+                {
+                    <span>Last synced @NewsFeedService.LastRefreshed.Value.ToLocalTime().ToString("MMM dd, HH:mm", CultureInfo.InvariantCulture)</span>
+                }
+                else
+                {
+                    <span>Waiting to start</span>
+                }
+            </span>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(ErrorMessage) && LoadedItems.Count > 0)
+        {
+            <div class="news-error-inline">
+                <p class="error-message">@ErrorMessage</p>
+            </div>
+        }
+
+        @if (IsPriming && LoadedItems.Count == 0)
+        {
+            <div class="news-empty reveal">
+                <p class="news-empty-title">Feed is warming up</p>
+                <p class="news-empty-text">
+                    The live feed waits 5 seconds after the page is ready before it starts polling external sources.
+                </p>
+            </div>
+        }
+        else if (IsLoading && LoadedItems.Count == 0)
+        {
+            <div class="news-loading">
+                <div class="loading-spinner"></div>
+                <div class="loading-text">Curating .NET news from live feeds...</div>
+            </div>
+        }
+        else if (!string.IsNullOrWhiteSpace(ErrorMessage) && LoadedItems.Count == 0)
+        {
+            <div class="news-error">
+                <p class="error-message">@ErrorMessage</p>
+                <button class="load-more-btn" type="button" @onclick="RetryInitialLoadAsync">Try again</button>
+            </div>
+        }
+        else if (VisibleItems.Count == 0)
+        {
+            <div class="news-empty reveal">
+                <p class="news-empty-title">No matching posts yet</p>
+                <p class="news-empty-text">
+                    The current filters are too specific for what has been loaded so far. Relax the filters or load more items.
+                </p>
+            </div>
+        }
+        else
+        {
+            <div class="news-grid stagger-children">
+                @foreach (var item in VisibleItems)
+                {
+                    <article class="news-card">
+                        <div class="news-card-header">
+                            <span class="news-source">@item.SourceName</span>
+                            <span class="news-date">@FormatRelativeTime(item.PublishedAt)</span>
+                        </div>
+
+                        <div class="news-card-body">
+                            <div class="news-card-flags">
+                                <span class="news-flag">@item.Type</span>
+                                @if (item.TechnologyTags.Count > 0)
+                                {
+                                    <span class="news-flag news-flag-muted">@item.PrimaryTechnology</span>
+                                }
+                            </div>
+
+                            <h3 class="news-title">@item.Title</h3>
+                            <p class="news-summary">@item.Summary</p>
+
+                            <div class="news-card-meta">
+                                <span class="news-meta-chip">By @item.Author</span>
+                                <span class="news-meta-chip">@item.PublishedAt.ToLocalTime().ToString("MMM dd, yyyy", CultureInfo.InvariantCulture)</span>
+                            </div>
+
+                            @if (item.TechnologyTags.Count > 0)
+                            {
+                                <div class="news-tag-list">
+                                    @foreach (var tag in item.TechnologyTags)
+                                    {
+                                        <span class="news-tag">@tag</span>
+                                    }
+                                </div>
+                            }
+                        </div>
+
+                        <div class="news-card-footer">
+                            <a class="news-read-link" href="@item.ItemUrl" target="_blank" rel="noopener noreferrer">
+                                Read article <span>&rarr;</span>
+                            </a>
+                        </div>
+                    </article>
+                }
+            </div>
+        }
+
+        <div class="news-pagination reveal">
+            <div class="news-pagination-actions">
+                <button class="load-more-btn" type="button" @onclick="PreviousPage" disabled="@(CurrentPage <= 1 || IsLoading)">
+                    Previous
+                </button>
+                <button class="load-more-btn" type="button" @onclick="NextPage" disabled="@(CurrentPage >= TotalPages || IsLoading)">
+                    Next
+                </button>
+            </div>
+
+            <div class="news-pagination-meta">
+                <span class="news-meta-item">Page @CurrentPage of @TotalPages</span>
+                <span class="news-meta-item">Showing @VisibleItems.Count of @FilteredItems.Count</span>
+            </div>
+
+            <div class="news-pagination-actions">
+                <button class="load-more-btn" type="button" @onclick="LoadMoreAsync" disabled="@IsLoading || !CanLoadMore">
+                    @(IsLoading ? "Loading..." : "Load more")
+                </button>
+            </div>
+
+            @if (!CanLoadMore && LoadedItems.Count > 0)
+            {
+                <span class="news-pagination-note">No more sources are queued right now.</span>
+            }
+        </div>
+    </div>
+</section>
+
+@code {
+    private const int PageSize = 10;
+    private static readonly string[] DateWindowOptions = ["All time", "Past 24 hours", "Past 7 days", "Past 30 days", "Past 90 days"];
+    private static readonly string[] SortOptions = ["Newest first", "Oldest first"];
+
+    private readonly List<NewsItem> LoadedItems = [];
+    private CancellationTokenSource? _loadCts;
+
+    private bool IsLoading;
+    private bool IsPriming = true;
+    private string? ErrorMessage;
+    private bool _bootstrapped;
+    private int CurrentPage = 1;
+
+    private string _searchText = string.Empty;
+    private string _selectedType = "All";
+    private string _selectedTechnology = "All";
+    private string _selectedSource = "All";
+    private string _selectedDateWindow = DateWindowOptions[0];
+    private string _selectedSort = SortOptions[0];
+
+    private string SearchText
+    {
+        get => _searchText;
+        set
+        {
+            if (_searchText == value)
+            {
+                return;
+            }
+
+            _searchText = value;
+            ResetPaging();
+        }
+    }
+
+    private string SelectedType
+    {
+        get => _selectedType;
+        set
+        {
+            if (_selectedType == value)
+            {
+                return;
+            }
+
+            _selectedType = value;
+            ResetPaging();
+        }
+    }
+
+    private string SelectedTechnology
+    {
+        get => _selectedTechnology;
+        set
+        {
+            if (_selectedTechnology == value)
+            {
+                return;
+            }
+
+            _selectedTechnology = value;
+            ResetPaging();
+        }
+    }
+
+    private string SelectedSource
+    {
+        get => _selectedSource;
+        set
+        {
+            if (_selectedSource == value)
+            {
+                return;
+            }
+
+            _selectedSource = value;
+            ResetPaging();
+        }
+    }
+
+    private string SelectedDateWindow
+    {
+        get => _selectedDateWindow;
+        set
+        {
+            if (_selectedDateWindow == value)
+            {
+                return;
+            }
+
+            _selectedDateWindow = value;
+            ResetPaging();
+        }
+    }
+
+    private string SelectedSort
+    {
+        get => _selectedSort;
+        set
+        {
+            if (_selectedSort == value)
+            {
+                return;
+            }
+
+            _selectedSort = value;
+            ResetPaging();
+        }
+    }
+
+    private IReadOnlyList<string> TypeOptions =>
+        ["All", .. LoadedItems.Select(item => item.Type.ToString()).Distinct(StringComparer.OrdinalIgnoreCase).OrderBy(value => value)];
+
+    private IReadOnlyList<string> TechnologyOptions =>
+        ["All", .. LoadedItems.SelectMany(item => item.TechnologyTags).Distinct(StringComparer.OrdinalIgnoreCase).OrderBy(value => value)];
+
+    private IReadOnlyList<string> SourceOptions =>
+        ["All", .. LoadedItems.Select(item => item.SourceName).Distinct(StringComparer.OrdinalIgnoreCase).OrderBy(value => value)];
+
+    private List<NewsItem> FilteredItems => ApplyFilters(LoadedItems).ToList();
+
+    private List<NewsItem> VisibleItems
+    {
+        get
+        {
+            var filtered = FilteredItems;
+            var skip = (CurrentPage - 1) * PageSize;
+            return filtered.Skip(skip).Take(PageSize).ToList();
+        }
+    }
+
+    private int TotalPages
+    {
+        get
+        {
+            var count = FilteredItems.Count;
+            return Math.Max(1, (int)Math.Ceiling(count / (double)PageSize));
+        }
+    }
+
+    private bool CanLoadMore => NewsFeedService.HasMoreItems && !IsLoading;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender || _bootstrapped)
+        {
+            return;
+        }
+
+        _bootstrapped = true;
+        _loadCts = new CancellationTokenSource();
+
+        try
+        {
+            await Task.Delay(TimeSpan.FromSeconds(5), _loadCts.Token);
+            await LoadBatchAsync();
+        }
+        catch (TaskCanceledException)
+        {
+        }
+        finally
+        {
+            IsPriming = false;
+            if (!(_loadCts?.IsCancellationRequested ?? false))
+            {
+                await InvokeAsync(StateHasChanged);
+            }
+        }
+    }
+
+    private async Task LoadBatchAsync()
+    {
+        if (IsLoading)
+        {
+            return;
+        }
+
+        IsLoading = true;
+        ErrorMessage = null;
+
+        try
+        {
+            var batch = await NewsFeedService.LoadNextBatchAsync(PageSize, _loadCts?.Token ?? CancellationToken.None);
+
+            if (batch.Count > 0)
+            {
+                LoadedItems.AddRange(batch);
+            }
+            else if (NewsFeedService.LastErrorMessage is not null)
+            {
+                ErrorMessage = NewsFeedService.LastErrorMessage;
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"We could not load the live feed yet: {ex.Message}";
+        }
+        finally
+        {
+            IsLoading = false;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private Task LoadMoreAsync() => LoadBatchAsync();
+
+    private void PreviousPage()
+    {
+        if (CurrentPage > 1)
+        {
+            CurrentPage--;
+        }
+    }
+
+    private void NextPage()
+    {
+        if (CurrentPage < TotalPages)
+        {
+            CurrentPage++;
+        }
+    }
+
+    private async Task RetryInitialLoadAsync()
+    {
+        NewsFeedService.Reset();
+        LoadedItems.Clear();
+        ResetPaging();
+        ErrorMessage = null;
+        await LoadBatchAsync();
+    }
+
+    private void ResetPaging()
+    {
+        CurrentPage = 1;
+    }
+
+    private IEnumerable<NewsItem> ApplyFilters(IEnumerable<NewsItem> items)
+    {
+        var query = items.AsEnumerable();
+
+        if (!string.IsNullOrWhiteSpace(SearchText))
+        {
+            var needle = SearchText.Trim();
+            query = query.Where(item =>
+                Contains(item.Title, needle) ||
+                Contains(item.Summary, needle) ||
+                Contains(item.SourceName, needle) ||
+                Contains(item.Author, needle) ||
+                item.TechnologyTags.Any(tag => Contains(tag, needle)));
+        }
+
+        if (!string.Equals(SelectedType, "All", StringComparison.OrdinalIgnoreCase))
+        {
+            query = query.Where(item => item.Type.ToString().Equals(SelectedType, StringComparison.OrdinalIgnoreCase));
+        }
+
+        if (!string.Equals(SelectedTechnology, "All", StringComparison.OrdinalIgnoreCase))
+        {
+            query = query.Where(item => item.TechnologyTags.Any(tag => tag.Equals(SelectedTechnology, StringComparison.OrdinalIgnoreCase)));
+        }
+
+        if (!string.Equals(SelectedSource, "All", StringComparison.OrdinalIgnoreCase))
+        {
+            query = query.Where(item => item.SourceName.Equals(SelectedSource, StringComparison.OrdinalIgnoreCase));
+        }
+
+        query = SelectedDateWindow switch
+        {
+            "Past 24 hours" => query.Where(item => item.PublishedAt >= DateTimeOffset.UtcNow.AddHours(-24)),
+            "Past 7 days" => query.Where(item => item.PublishedAt >= DateTimeOffset.UtcNow.AddDays(-7)),
+            "Past 30 days" => query.Where(item => item.PublishedAt >= DateTimeOffset.UtcNow.AddDays(-30)),
+            "Past 90 days" => query.Where(item => item.PublishedAt >= DateTimeOffset.UtcNow.AddDays(-90)),
+            _ => query
+        };
+
+        query = SelectedSort == "Oldest first"
+            ? query.OrderBy(item => item.PublishedAt)
+            : query.OrderByDescending(item => item.PublishedAt);
+
+        return query;
+    }
+
+    private static bool Contains(string? haystack, string needle)
+    {
+        return !string.IsNullOrWhiteSpace(haystack) &&
+               haystack.Contains(needle, StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static string FormatRelativeTime(DateTimeOffset publishedAt)
+    {
+        var span = DateTimeOffset.UtcNow - publishedAt.ToUniversalTime();
+
+        if (span.TotalMinutes < 60)
+        {
+            return span.TotalMinutes < 2 ? "Just now" : $"{(int)span.TotalMinutes}m ago";
+        }
+
+        if (span.TotalHours < 24)
+        {
+            return $"{(int)span.TotalHours}h ago";
+        }
+
+        if (span.TotalDays < 7)
+        {
+            return $"{(int)span.TotalDays}d ago";
+        }
+
+        return publishedAt.ToLocalTime().ToString("MMM dd", CultureInfo.InvariantCulture);
+    }
+
+    public void Dispose()
+    {
+        _loadCts?.Cancel();
+        _loadCts?.Dispose();
+    }
+}

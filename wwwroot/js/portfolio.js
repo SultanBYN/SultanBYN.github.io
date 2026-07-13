@@ -176,7 +176,8 @@ window.portfolioInterop = {
         const sectionNames = {
             home: 'Home', about: 'About', experience: 'Experience',
             skills: 'Skills', projects: 'Projects',
-            certifications: 'Certifications', newsfeed: 'News Feed'
+            certifications: 'Certifications',
+            news: 'News'
         };
 
         const setActiveSection = (activeId) => {
