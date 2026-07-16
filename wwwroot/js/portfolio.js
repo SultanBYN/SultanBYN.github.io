@@ -44,11 +44,16 @@ window.portfolioInterop = {
         return this.applyTheme(nextTheme);
     },
 
-    _typingInterval: null,
+    _typingIntervals: {},
 
     startTypingEffect: function (elementId, phrases, typingSpeed, deletingSpeed, pauseTime) {
         const el = document.getElementById(elementId);
         if (!el) return;
+
+        if (this._typingIntervals[elementId]) {
+            clearTimeout(this._typingIntervals[elementId]);
+            delete this._typingIntervals[elementId];
+        }
 
         let phraseIndex = 0;
         let charIndex = 0;
@@ -76,17 +81,25 @@ window.portfolioInterop = {
                 delay = 400;
             }
 
-            this._typingInterval = setTimeout(type, delay);
+            this._typingIntervals[elementId] = setTimeout(type, delay);
         };
 
         type();
     },
 
-    stopTypingEffect: function () {
-        if (this._typingInterval) {
-            clearTimeout(this._typingInterval);
-            this._typingInterval = null;
+    stopTypingEffect: function (elementId) {
+        if (elementId) {
+            if (this._typingIntervals[elementId]) {
+                clearTimeout(this._typingIntervals[elementId]);
+                delete this._typingIntervals[elementId];
+            }
+            return;
         }
+
+        Object.keys(this._typingIntervals).forEach(key => {
+            clearTimeout(this._typingIntervals[key]);
+            delete this._typingIntervals[key];
+        });
     },
 
     // ── Scroll Reveal Observer ─────────────────────────────────

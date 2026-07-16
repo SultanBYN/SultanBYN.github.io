@@ -552,6 +552,10 @@
     padding: 2.25rem 2.5rem;
   }
 
+  .hero-page .page-container {
+    padding-top: 1.25rem;
+  }
+
   .hero-name {
     font-size: 3rem;
   }
@@ -580,6 +584,10 @@
 
   .mobile-topbar {
     display: none;
+  }
+
+  .hero-page .page-container {
+    padding-top: 1rem;
   }
 }
 

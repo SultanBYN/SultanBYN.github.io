@@ -10,7 +10,7 @@
                 <div class="hero-left">
                     <div class="hero-availability">
                         <span class="avail-dot"></span>
-                        Available for opportunities
+                        <span class="hero-availability-text">Available for opportunities</span>
                     </div>
 
                     <h1 class="hero-name">
@@ -22,7 +22,8 @@
                     </p>
 
                     <p class="hero-location">
-                        &gt; Islamabad, Pakistan
+                        <span>&gt;</span>
+                        <span class="hero-location-typing" id="hero-location-text"></span><span class="hero-cursor"></span>
                     </p>
 
                     <p class="hero-tagline">
@@ -317,6 +318,12 @@
         "Problem Solver"
     ];
 
+    private static readonly string[] LocationPhrases =
+    [
+        "Bahawalpur, Pakistan",
+        "Islamabad, Pakistan"
+    ];
+
     // ── Experience data ──
     private record WorkPosition(string Title, string Company, string Period, string EmploymentType, List<string> AssociatedProjects);
 
@@ -372,9 +379,12 @@
             await JS.InvokeVoidAsync("portfolioInterop.startTypingEffect",
                 "hero-typing-text", TypingPhrases, 80, 40, 2000);
 
+            await JS.InvokeVoidAsync("portfolioInterop.startTypingEffect",
+                "hero-location-text", LocationPhrases, 80, 40, 2000);
+
             await JS.InvokeVoidAsync("portfolioInterop.animateCounter", "stat-years", 4, 1500);
             await JS.InvokeVoidAsync("portfolioInterop.animateCounter", "stat-projects", 15, 1500);
-            await JS.InvokeVoidAsync("portfolioInterop.animateCounter", "stat-companies", 4, 1500);
+            await JS.InvokeVoidAsync("portfolioInterop.animateCounter", "stat-companies", 3, 1500);
             await JS.InvokeVoidAsync("portfolioInterop.animateCounter", "stat-clients", 10, 1800);
 
             await JS.InvokeVoidAsync("portfolioInterop.initScrollReveal");
